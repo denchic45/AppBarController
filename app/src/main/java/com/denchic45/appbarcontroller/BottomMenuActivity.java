@@ -10,7 +10,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 
-import com.denchic45.library.AppBarController;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 

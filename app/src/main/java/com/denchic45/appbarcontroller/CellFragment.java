@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.denchic45.library.AppBarController;
-
 public class CellFragment extends Fragment {
 
     private static final String ARG_MESSAGE = "message";

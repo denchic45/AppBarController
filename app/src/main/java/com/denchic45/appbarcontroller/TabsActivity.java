@@ -10,7 +10,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.denchic45.library.AppBarController;
 import com.google.android.material.tabs.TabLayout;
 
 public class TabsActivity extends AppCompatActivity {

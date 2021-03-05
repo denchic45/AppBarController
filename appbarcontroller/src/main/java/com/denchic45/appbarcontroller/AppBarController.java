@@ -1,4 +1,4 @@
-package com.denchic45.library;
+package com.denchic45.appbarcontroller;
 
 import android.view.LayoutInflater;
 import android.view.View;

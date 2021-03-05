@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppBarController">
-        <activity android:name="com.denchic45.appbarcontroller.BottomMenuActivity"></activity>
+        <activity android:name="com.denchic45.appbarcontroller.BottomMenuActivity" />
         <activity android:name="com.denchic45.appbarcontroller.TabsActivity" />
         <activity
             android:name="com.denchic45.appbarcontroller.MainActivity"
