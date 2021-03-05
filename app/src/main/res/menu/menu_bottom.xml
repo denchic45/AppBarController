@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.appbarcontroller.MainActivity">
+    <item
+        android:id="@+id/cellFragment"
+        android:title="first"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/cellFragment2"
+        android:title="second"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/cellFragment3"
+        android:title="third"
+        app:showAsAction="never" />
+</menu>

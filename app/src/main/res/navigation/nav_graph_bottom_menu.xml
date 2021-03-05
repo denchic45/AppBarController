@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottom_menu_nav"
+    app:startDestination="@id/cellFragment">
+
+    <fragment
+        android:id="@+id/cellFragment"
+        android:name="com.example.appbarcontroller.CellFragment"
+        android:label="fragment_cell"
+        tools:layout="@layout/fragment_cell">
+        <argument
+            android:name="message"
+            android:defaultValue="Hello, world!"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cellFragment2"
+        android:name="com.example.appbarcontroller.CellFragment"
+        android:label="fragment_cell"
+        tools:layout="@layout/fragment_cell">
+        <argument
+            android:name="message"
+            android:defaultValue="Some Fragment"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/cellFragment3"
+        android:name="com.example.appbarcontroller.CellFragment"
+        android:label="fragment_cell"
+        tools:layout="@layout/fragment_cell">
+        <argument
+            android:name="message"
+            android:defaultValue="..."
+            app:argType="string" />
+    </fragment>
+</navigation>

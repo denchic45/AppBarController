@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/HomeFragment">
+
+    <fragment
+        android:id="@+id/HomeFragment"
+        android:name="com.example.appbarcontroller.HomeFragment"
+        android:label="@string/home_fragment_label"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_HomeFragment_to_bottomMenuActivity"
+            app:destination="@id/bottomMenuActivity" />
+        <action
+            android:id="@+id/action_HomeFragment_to_tabsActivity"
+            app:destination="@id/tabsActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/bottomMenuActivity"
+        android:name="com.example.appbarcontroller.BottomMenuActivity"
+        android:label="BottomMenuActivity" />
+    <activity
+        android:id="@+id/tabsActivity"
+        android:name="com.example.appbarcontroller.TabsActivity"
+        android:label="activity_tabs"
+        tools:layout="@layout/activity_tabs" />
+
+</navigation>
