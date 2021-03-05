@@ -1,4 +1,4 @@
-package com.denchic45.appbarcontroller;
+package com.denchic45.sample;
 
 import android.os.Bundle;
 import android.view.Menu;

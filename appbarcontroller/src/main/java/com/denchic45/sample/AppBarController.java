@@ -1,8 +1,10 @@
-package com.denchic45.appbarcontroller;
+package com.denchic45.sample;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -56,8 +58,9 @@ public final class AppBarController {
     }
 
     public void addView(@NotNull View view, @AppBarLayout.LayoutParams.ScrollFlags int scrollFlags) {
-        setScrollFlags(view, scrollFlags);
+        int height = view.getHeight();
         addView(view);
+        setScrollFlags(view, scrollFlags);
     }
 
     public void addView(View view) {
@@ -65,7 +68,15 @@ public final class AppBarController {
         views.put(view.getId(), view);
     }
 
-    public @Nullable View getView(@LayoutRes int viewId) {
+    public void setScrollFlags(@NotNull View view, @AppBarLayout.LayoutParams.ScrollFlags int scrollFlags) {
+        ViewGroup.LayoutParams params =  view.getLayoutParams();
+        ((AppBarLayout.LayoutParams)params).setScrollFlags(scrollFlags);
+        view.setLayoutParams(params);
+        int height = view.getHeight();
+        view.getHeight();
+    }
+
+    public @Nullable View getView(@IdRes int viewId) {
         return views.get(viewId);
     }
 
@@ -121,14 +132,7 @@ public final class AppBarController {
         appBarLayout.removeView(view);
     }
 
-    public void setScrollFlags(@NotNull View view, @AppBarLayout.LayoutParams.ScrollFlags int scrollFlags) {
-        AppBarLayout.LayoutParams params =
-                (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
-        params.setScrollFlags(scrollFlags);
-        view.setLayoutParams(params);
-    }
-
     public void showToolbar() {
-        appBarLayout.setExpanded(true,true);
+        appBarLayout.setExpanded(true, true);
     }
 }

@@ -1,4 +1,4 @@
-package com.denchic45.appbarcontroller;
+package com.denchic45.sample;
 
 import android.content.Context;
 import android.graphics.Color;
