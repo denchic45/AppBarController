@@ -13,12 +13,12 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.material.appbar.AppBarLayout;
+import com.denchic45.appbarcontroller.AppBarController;
 
 
 public class HomeFragment extends Fragment {
 
-    private AppBarController controller;
+    AppBarController controller;
     private Button btnBottomMenu, btnTabs, btnDynamicallyChanges;
     private NavController navController;
 
