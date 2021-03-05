@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.appbarcontroller"
+        applicationId "com.denchic45.appbarcontroller"
         minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
@@ -35,7 +35,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
     implementation 'androidx.navigation:navigation-ui:2.3.2'
-    implementation project(path: ':library')
+    implementation project(path: ':appbarcontroller')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

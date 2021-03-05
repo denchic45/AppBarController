@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/HomeFragment"
-        android:name="com.example.appbarcontroller.HomeFragment"
+        android:name="com.denchic45.appbarcontroller.HomeFragment"
         android:label="@string/home_fragment_label"
         tools:layout="@layout/fragment_home">
         <action
@@ -19,11 +19,11 @@
     </fragment>
     <activity
         android:id="@+id/bottomMenuActivity"
-        android:name="com.example.appbarcontroller.BottomMenuActivity"
+        android:name="com.denchic45.appbarcontroller.BottomMenuActivity"
         android:label="BottomMenuActivity" />
     <activity
         android:id="@+id/tabsActivity"
-        android:name="com.example.appbarcontroller.TabsActivity"
+        android:name="com.denchic45.appbarcontroller.TabsActivity"
         android:label="activity_tabs"
         tools:layout="@layout/activity_tabs" />
 

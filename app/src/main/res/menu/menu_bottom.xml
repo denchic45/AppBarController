@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.appbarcontroller.MainActivity">
+    tools:context="com.denchic45.appbarcontroller.MainActivity">
     <item
         android:id="@+id/cellFragment"
         android:title="first"
