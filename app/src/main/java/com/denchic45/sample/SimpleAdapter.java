@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.SimpleHolder> {
 
-    private String[] list;
+    private String[] list = new String[]{};
+
+    public SimpleAdapter() {
+    }
 
     public SimpleAdapter(String[] list) {
         this.list = list;

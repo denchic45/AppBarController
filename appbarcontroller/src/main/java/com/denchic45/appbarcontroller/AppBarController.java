@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
@@ -29,7 +31,7 @@ public final class AppBarController {
     private final Map<Integer, View> views = new HashMap<>();
     private Toolbar toolbar;
 
-    private AppBarController(@NotNull AppCompatActivity activity, AppBarLayout appBarLayout) {
+    private AppBarController(@NotNull AppCompatActivity activity, @NonNull AppBarLayout appBarLayout) {
         final Lifecycle lifecycle = activity.getLifecycle();
         controllers.put(lifecycle, this);
         this.appBarLayout = appBarLayout;
@@ -47,7 +49,8 @@ public final class AppBarController {
     }
 
     @Contract("_, _ -> new")
-    public static @NotNull AppBarController create(AppCompatActivity activity, AppBarLayout appBarLayout) {
+    public static @NotNull AppBarController create(AppCompatActivity activity, @NonNull AppBarLayout appBarLayout) {
+        Class<? extends CoordinatorLayout.Behavior> aClass = appBarLayout.getBehavior().getClass();
         return new AppBarController(activity, appBarLayout);
     }
 
@@ -58,7 +61,6 @@ public final class AppBarController {
     }
 
     public void addView(@NotNull View view, @AppBarLayout.LayoutParams.ScrollFlags int scrollFlags) {
-        int height = view.getHeight();
         addView(view);
         setScrollFlags(view, scrollFlags);
     }
@@ -68,12 +70,24 @@ public final class AppBarController {
         views.put(view.getId(), view);
     }
 
-    public void setScrollFlags(@NotNull View view, @AppBarLayout.LayoutParams.ScrollFlags int scrollFlags) {
+    private void setScrollFlags(@NotNull View view, @AppBarLayout.LayoutParams.ScrollFlags int scrollFlags) {
         ViewGroup.LayoutParams params = view.getLayoutParams();
         ((AppBarLayout.LayoutParams) params).setScrollFlags(scrollFlags);
         view.setLayoutParams(params);
-        int height = view.getHeight();
-        view.getHeight();
+    }
+
+    public void setExpanded(boolean expand, boolean animate) {
+        appBarLayout.setExpanded(expand, animate);
+    }
+
+    public void setExpandableIfViewCanScroll(View view) {
+        appBarLayout.setExpanded(true, true);
+        appBarLayout.postDelayed(() -> {
+            ToolbarBehavior behavior = new ToolbarBehavior(view);
+            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+            layoutParams.setBehavior(behavior);
+            appBarLayout.setLayoutParams(layoutParams);
+        },300);
     }
 
     public @Nullable View getView(@IdRes int viewId) {
@@ -134,5 +148,9 @@ public final class AppBarController {
 
     public void showToolbar() {
         appBarLayout.setExpanded(true, true);
+    }
+
+    public enum EXPAND {
+        IF_CAN_SCROLL, ALWAYS, DISABLE
     }
 }
