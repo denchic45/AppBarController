@@ -60,9 +60,9 @@ public class CellFragment extends Fragment {
             controller.setTitle(argMessage);
         }
         rv = root.findViewById(R.id.list);
-        controller.setExpandableIfViewCanScroll(rv);
         adapter = new SimpleAdapter(bigList);
         rv.setAdapter(adapter);
+        controller.setExpandableIfViewCanScroll(rv);
         return root;
     }
 }

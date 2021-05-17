@@ -4,14 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.denchic45.appbarcontroller.AppBarController;
@@ -38,10 +34,19 @@ public class BottomMenuActivity extends AppCompatActivity {
 
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> appBarController.showToolbar());
 
-        Button btn2 = findViewById(R.id.btn_switch_list);
-        btn2.setOnClickListener(v -> {
+        Button btnSmallList = findViewById(R.id.btn_small_list);
+        btnSmallList.setOnClickListener(v -> {
             CellFragment primaryNavigationFragment = (CellFragment) fragment.getChildFragmentManager().getPrimaryNavigationFragment();
-            primaryNavigationFragment.putList(new String[]{});
+            primaryNavigationFragment.putList(new String[]{"sdf","dfgfgdfg"});
+        });
+
+        Button btnBigList = findViewById(R.id.btn_big_list);
+        btnBigList.setOnClickListener(v -> {
+            CellFragment primaryNavigationFragment = (CellFragment) fragment.getChildFragmentManager().getPrimaryNavigationFragment();
+            primaryNavigationFragment.putList(new String[]{
+                    "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька", "Томасина", "Кристина", "Пушок", "Дымка", "Кузя",
+                    "Китти", "Масяня", "Симба", "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
+                    "Томасина", "Кристина", "Пушок", "Дымка", "Кузя", "Китти", "Масяня", "Симба"});
         });
     }
 }

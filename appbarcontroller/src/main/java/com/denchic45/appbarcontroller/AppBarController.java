@@ -13,7 +13,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.denchic45.RecyclerViewFinishListener;
 import com.google.android.material.appbar.AppBarLayout;
 
 import org.jetbrains.annotations.Contract;
@@ -87,7 +89,47 @@ public final class AppBarController {
             CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
             layoutParams.setBehavior(behavior);
             appBarLayout.setLayoutParams(layoutParams);
-        },300);
+        }, 300);
+
+        if (view instanceof RecyclerView) {
+            RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
+            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
+                @Override
+                public void onChanged() {
+                    expandAppbarIfNecessary((RecyclerView) view);
+                    super.onChanged();
+                }
+
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    expandAppbarIfNecessary((RecyclerView) view);
+                    super.onItemRangeInserted(positionStart, itemCount);
+                }
+
+                @Override
+                public void onItemRangeRemoved(int positionStart, int itemCount) {
+                    expandAppbarIfNecessary((RecyclerView) view);
+                    super.onItemRangeRemoved(positionStart, itemCount);
+                }
+
+                @Override
+                public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                    expandAppbarIfNecessary((RecyclerView) view);
+                    super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+                }
+            });
+        }
+    }
+
+    private void expandAppbarIfNecessary(@NonNull RecyclerView recyclerView) {
+        new RecyclerViewFinishListener(recyclerView, () -> {
+            boolean b = recyclerView.canScrollVertically(1);
+            boolean b1 = recyclerView.canScrollVertically(-1);
+            if (!b && !b1) {
+                appBarLayout.setExpanded(true, true);
+            }
+        });
     }
 
     public @Nullable View getView(@IdRes int viewId) {
