@@ -13,7 +13,9 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleEventObserver;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.denchic45.RecyclerViewFinishListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -83,15 +85,16 @@ public final class AppBarController {
     }
 
     public void setExpandableIfViewCanScroll(View view) {
-        appBarLayout.setExpanded(true, true);
-        appBarLayout.postDelayed(() -> {
-            ToolbarBehavior behavior = new ToolbarBehavior(view);
-            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-            layoutParams.setBehavior(behavior);
-            appBarLayout.setLayoutParams(layoutParams);
-        }, 300);
+//        appBarLayout.setExpanded(true, true);
+//        appBarLayout.postDelayed(() -> {
+//            ToolbarBehavior behavior = new ToolbarBehavior(view);
+//            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+//            layoutParams.setBehavior(behavior);
+//            appBarLayout.setLayoutParams(layoutParams);
+//        }, 300);
 
         if (view instanceof RecyclerView) {
+            expandAppbarIfNecessary((RecyclerView) view);
             RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
             adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
@@ -124,12 +127,51 @@ public final class AppBarController {
 
     private void expandAppbarIfNecessary(@NonNull RecyclerView recyclerView) {
         new RecyclerViewFinishListener(recyclerView, () -> {
-            boolean b = recyclerView.canScrollVertically(1);
-            boolean b1 = recyclerView.canScrollVertically(-1);
-            if (!b && !b1) {
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+            AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
+            behavior.setDragCallback(new AppBarLayout.Behavior.DragCallback() {
+                @Override
+                public boolean canDrag(@NonNull AppBarLayout appBarLayout) {
+                    return recyclerView.isNestedScrollingEnabled();
+                }
+            });
+            boolean canScrollDown = recyclerView.canScrollVertically(1);
+            boolean canScrollUp = recyclerView.canScrollVertically(-1);
+            if (!canScrollDown && !canScrollUp) {
                 appBarLayout.setExpanded(true, true);
+                recyclerView.setNestedScrollingEnabled(false);
+            } else {
+                recyclerView.setNestedScrollingEnabled(true);
             }
         });
+    }
+
+    private boolean checkScrollableRecyclerView(RecyclerView recyclerView, RecyclerView.Adapter<?> adapter) {
+        if (adapter != null) {
+                if (adapter.getItemCount() == 0) {
+                    return false;
+                }
+                RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+                if (layoutManager != null) {
+                    int lastVisibleItem = 0;
+                    int firstVisibleItem = 0;
+                    if (layoutManager instanceof LinearLayoutManager) {
+                        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
+                        lastVisibleItem = Math.abs(linearLayoutManager.findLastCompletelyVisibleItemPosition());
+                        firstVisibleItem = Math.abs(linearLayoutManager.findFirstCompletelyVisibleItemPosition());
+                    } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                        StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
+                        int[] lastItems = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(new int[staggeredGridLayoutManager.getSpanCount()]);
+                        int[] firstItems = staggeredGridLayoutManager.findFirstCompletelyVisibleItemPositions(new int[staggeredGridLayoutManager.getSpanCount()]);
+                        lastVisibleItem = Math.abs(lastItems[lastItems.length - 1]);
+                        firstVisibleItem = Math.abs(firstItems[firstItems.length -1]);
+                    }
+                    return lastVisibleItem < adapter.getItemCount() - 1 || firstVisibleItem > 0;
+                } else if (adapter.getItemCount() == 0) {
+                    return false;
+                }
+        }
+        return false;
     }
 
     public @Nullable View getView(@IdRes int viewId) {

@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +36,7 @@ public class ToolbarBehavior extends AppBarLayout.Behavior {
     }
 
     @Override
-    public boolean onStartNestedScroll(@NotNull CoordinatorLayout parent, AppBarLayout child, View directTargetChild, View target, int nestedScrollAxes, int type) {
+    public boolean onStartNestedScroll(@NotNull CoordinatorLayout parent, @NonNull AppBarLayout child, View directTargetChild, View target, int nestedScrollAxes, int type) {
         updatedScrollable(scrollableView, child);
         return scrollable && super.onStartNestedScroll(parent, child, scrollableView, target, nestedScrollAxes, type);
     }
