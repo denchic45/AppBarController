@@ -18,8 +18,6 @@ public class CellFragment extends Fragment {
 
     private static final String ARG_MESSAGE = "message";
 
-    private String argMessage;
-    private TextView tvMessage;
     private final String[] bigList = new String[]{
             "Рыжик", "Барсик", "Мурзик", "Мурка", "Васька",
             "Томасина", "Кристина", "Пушок", "Дымка", "Кузя",
@@ -29,7 +27,6 @@ public class CellFragment extends Fragment {
     };
 
     private final String[] smallList = new String[]{"Рыжик", "Барсик", "Мурзик"};
-    private RecyclerView rv;
     private SimpleAdapter adapter;
 
     @NonNull
@@ -52,17 +49,28 @@ public class CellFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_cell, container, false);
-        tvMessage = root.findViewById(R.id.tv_message);
+        TextView tvMessage = root.findViewById(R.id.tv_message);
         AppBarController controller = AppBarController.findController(getActivity());
         if (getArguments() != null) {
-            argMessage = getArguments().getString(ARG_MESSAGE);
+            String argMessage = getArguments().getString(ARG_MESSAGE);
             tvMessage.setText(argMessage);
             controller.setTitle(argMessage);
         }
-        rv = root.findViewById(R.id.list);
+        RecyclerView rv = root.findViewById(R.id.list);
         adapter = new SimpleAdapter(bigList);
         rv.setAdapter(adapter);
-        controller.setExpandableIfViewCanScroll(rv);
+        rv.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+            @Override
+            public void onViewAttachedToWindow(View v) {
+
+            }
+
+            @Override
+            public void onViewDetachedFromWindow(View v) {
+                rv.setAdapter(null);
+            }
+        });
+        controller.setExpandableIfViewCanScroll(rv, getViewLifecycleOwner());
         return root;
     }
 }

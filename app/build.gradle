@@ -10,8 +10,8 @@ android {
         applicationId "com.denchic45.appbarcontroller"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 3
-        versionName "1.0.5"
+        versionCode 4
+        versionName "1.0.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,4 +41,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+//    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.5'
 }

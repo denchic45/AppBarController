@@ -54,7 +54,6 @@ public final class AppBarController {
 
     @Contract("_, _ -> new")
     public static @NotNull AppBarController create(AppCompatActivity activity, @NonNull AppBarLayout appBarLayout) {
-        Class<? extends CoordinatorLayout.Behavior> aClass = appBarLayout.getBehavior().getClass();
         return new AppBarController(activity, appBarLayout);
     }
 
@@ -84,19 +83,12 @@ public final class AppBarController {
         appBarLayout.setExpanded(expand, animate);
     }
 
-    public void setExpandableIfViewCanScroll(View view) {
-//        appBarLayout.setExpanded(true, true);
-//        appBarLayout.postDelayed(() -> {
-//            ToolbarBehavior behavior = new ToolbarBehavior(view);
-//            CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-//            layoutParams.setBehavior(behavior);
-//            appBarLayout.setLayoutParams(layoutParams);
-//        }, 300);
+    public void setExpandableIfViewCanScroll(@NonNull View view, LifecycleOwner lifecycleOwner) {
 
         if (view instanceof RecyclerView) {
             expandAppbarIfNecessary((RecyclerView) view);
-            RecyclerView.Adapter adapter = ((RecyclerView) view).getAdapter();
-            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            RecyclerView.Adapter<?> adapter = ((RecyclerView) view).getAdapter();
+            RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
 
                 @Override
                 public void onChanged() {
@@ -120,6 +112,16 @@ public final class AppBarController {
                 public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
                     expandAppbarIfNecessary((RecyclerView) view);
                     super.onItemRangeMoved(fromPosition, toPosition, itemCount);
+                }
+            };
+            adapter.registerAdapterDataObserver(observer);
+            lifecycleOwner.getLifecycle().addObserver(new LifecycleEventObserver() {
+                @Override
+                public void onStateChanged(@NonNull LifecycleOwner source, @NonNull Lifecycle.Event event) {
+                    if (event.equals(Lifecycle.Event.ON_DESTROY)) {
+                        adapter.unregisterAdapterDataObserver(observer);
+                        lifecycleOwner.getLifecycle().removeObserver(this);
+                    }
                 }
             });
         }
